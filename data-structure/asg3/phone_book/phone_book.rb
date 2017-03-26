@@ -3,7 +3,7 @@ class Instruction
 
   def initialize(op, number, name = nil)
     @op = op
-    @number = number
+    @number = number.to_i
     @name = name
   end
 
@@ -14,6 +14,7 @@ end
 
 class PhoneBook
   def read_input
+    n = STDIN.gets
     instructions = STDIN.readlines.map {|line|
       tuples = line.split
       if tuples.length == 3
@@ -26,13 +27,12 @@ class PhoneBook
   end
 
   def process_input(instructions)
-    "not found"
+    puts "not found"
   end
 
   def run
     instructions = read_input
-    puts "instructions = #{instructions.map {|i| i.to_s }}"
-    puts process_input(instructions)
+    process_input(instructions)
   end
 end
 
