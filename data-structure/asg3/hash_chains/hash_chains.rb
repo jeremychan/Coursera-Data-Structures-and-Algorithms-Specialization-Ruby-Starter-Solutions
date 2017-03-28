@@ -1,5 +1,9 @@
 class QueryProcessor
 
+  def initialize(num_buckets)
+    @hash = Array.new(num_buckets)
+  end
+
   def run
     queries = STDIN.readlines.map { |line|
       tuples = line.split
@@ -36,6 +40,6 @@ end
 if __FILE__ == $0
   num_buckets = STDIN.gets.to_i
   num_queries = STDIN.gets.to_i
-  query_processor = QueryProcessor.new
+  query_processor = QueryProcessor.new(num_buckets)
   query_processor.run
 end
