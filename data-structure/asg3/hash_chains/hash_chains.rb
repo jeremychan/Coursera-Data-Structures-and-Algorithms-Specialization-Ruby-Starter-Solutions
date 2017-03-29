@@ -1,7 +1,8 @@
 class QueryProcessor
 
   def initialize(num_buckets)
-    @hash = Array.new(num_buckets)
+    @hash = Array.new(num_buckets) { Array.new }
+    @num_buckets = num_buckets
   end
 
   def run
@@ -13,27 +14,27 @@ class QueryProcessor
       elsif op == 'del'
         do_del(oprand)
       elsif op == 'find'
-        do_find(oprand)
+        puts do_find(oprand)
       else
-        do_check(oprand.to_i)
+        puts do_check(oprand.to_i)
       end
     }
   end
 
   def do_find(oprand)
-    puts "finding #{oprand}"
+
   end
 
   def do_check(oprand)
-    puts "checking #{oprand}"
+
   end
 
   def do_del(oprand)
-    puts "deleting #{oprand}"
+
   end
 
   def do_add(oprand)
-    puts "adding #{oprand}"
+
   end
 end
 
