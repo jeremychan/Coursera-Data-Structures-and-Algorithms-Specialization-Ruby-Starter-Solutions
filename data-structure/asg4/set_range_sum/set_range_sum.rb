@@ -9,35 +9,27 @@ class Vertex
     @parent = parent
   end
 
-  def has_left?
-    !@left.nil?
-  end
-
-  def has_right?
-    !@right.nil?
-  end
-
   def left_sum
-    has_left? ? @left.sum : 0
+    @left ? @left.sum : 0
   end
 
   def right_sum
-    has_right? ? @right.sum : 0
+    @right ? @right.sum : 0
   end
 end
 
 class SplayTree
   class << self
     def update(v)
-      return if v.nil?
+      return unless v
       v.sum = v.key + v.left_sum + v.right_sum
-      v.left.parent = v if v.has_left?
-      v.right.parent = v if v.has_right?
+      v.left.parent = v if v.left
+      v.right.parent = v if v.right
     end
 
     def small_rotation(v)
       parent = v.parent
-      return if parent.nil?
+      return unless parent
       grandparent = v.parent.parent
       if parent.left == v
         tmp = v.right
@@ -51,7 +43,7 @@ class SplayTree
       update(parent)
       update(v)
       v.parent = grandparent
-      unless grandparent.nil?
+      if grandparent
         if grandparent.left == parent
           grandparent.left = v
         else
@@ -74,9 +66,9 @@ class SplayTree
     end
 
     def splay(v)
-      return if v.nil?
-      until v.parent.nil?
-        if v.parent.parent.nil?
+      return unless v
+      while v.parent
+        if !v.parent.parent
           small_rotation(v)
           break
         end
@@ -89,7 +81,7 @@ class SplayTree
       v = root
       last = root
       next_v = nil
-      until v.nil?
+      while v
         last = v
         if v.key >= key && (next_v.nil? || v.key < next_v.key)
           next_v = v
@@ -103,20 +95,20 @@ class SplayTree
 
     def split(root, key)
       result, root = find(root, key)
-      return root, nil if result.nil?
+      return root, nil unless result
       right = splay(result)
       left = right.left
       right.left = nil
-      left.parent = nil unless left.nil?
+      left.parent = nil if left
       update(left)
       update(right)
       return left, right
     end
 
     def merge(left, right)
-      return right if left.nil?
-      return left if right.nil?
-      while right.left != nil
+      return right if !left
+      return left if !right
+      while right.left
         right = right.left
       end
       right = splay(right)
