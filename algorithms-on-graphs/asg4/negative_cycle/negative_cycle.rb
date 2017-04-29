@@ -1,32 +1,48 @@
 class Vertex
-  attr_accessor :id, :adj
+  include Comparable
+  attr_accessor :id, :adj, :state, :dist
 
   def initialize(id)
     @id = id
     @adj = []
+    @state = :unvisited
+    @dist = -1
+  end
+
+  def to_s
+    "#{id + 1}"
+  end
+
+  def <=>(other)
+    other.dist <=> @dist
   end
 
   def add_adj(id, w)
-    @adj.push(Edge.new(id, w))
+    edge = Edge.new(@id, id, w)
+    @adj.push(edge)
+    edge
   end
 end
 
 class Edge
-  attr_accessor :to, :w
+  attr_accessor :to, :from, :w
 
-  def initialize(to, w)
+  def initialize(from, to, w)
     @to = to
     @w = w
+    @from = from
   end
 end
 
 class Graph
   def initialize(n)
-    @vertexes = Array.new(n) { |i| Vertex.new(i) }
+    @vertexes = Array.new(n) {|i| Vertex.new(i)}
+    @edges = []
   end
 
   def add_edge(u, v, w)
-    @vertexes[u].add_adj(v, w)
+    edge = @vertexes[u].add_adj(v, w)
+    @edges.push(edge)
   end
 
   def negative_cycle?
