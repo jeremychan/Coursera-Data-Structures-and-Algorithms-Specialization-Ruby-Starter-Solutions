@@ -45,9 +45,10 @@ class Graph
     @edges.push(edge)
   end
 
-  def negative_cycle?
-    # code here
-    0
+  def shortest_paths(s)
+    @vertexes.each {|v|
+      puts "0"
+    }
   end
 end
 
@@ -58,5 +59,6 @@ if __FILE__ == $0
     u, v, w = STDIN.gets.split
     graph.add_edge(u.to_i - 1, v.to_i - 1, w.to_i)
   }
-  puts "#{graph.negative_cycle?}"
+  s = STDIN.gets.to_i
+  graph.shortest_paths(s)
 end
