@@ -19,6 +19,7 @@ class Solver
     (0...@size).each {
       pivot_element = select_pivot
       swap_lines(pivot_element)
+      process_pivot(pivot_element)
       mark_pivot_used(pivot_element)
     }
   end
@@ -33,7 +34,6 @@ class Solver
     @b[pivot_element.column], @b[pivot_element.row] = @b[pivot_element.row], @b[pivot_element.column]
     @used_rows[pivot_element.column], @used_rows[pivot_element.row] = @used_rows[pivot_element.row], @used_rows[pivot_element.column]
     pivot_element.row = pivot_element.column
-    process_pivot(pivot_element)
   end
 
   def process_pivot(pivot_element)
@@ -48,10 +48,8 @@ class Solver
     Position.new(last_unused_row, last_unused_col)
   end
 
-  def print
-    @b.each {|y|
-      puts "#{'%.20f' % y}"
-    }
+  def print_result
+    puts "#{@b.map{|y| "#{'%.20f' % y}"}.join(' ')}"
   end
 
 end
